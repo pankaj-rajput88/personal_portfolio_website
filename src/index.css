@@ -1,0 +1,306 @@
+
+/* Fonts: heading = Bricolage Grotesque, body = Figtree, code = JetBrains Mono */
+@import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Figtree:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap");
+
+:root[data-theme="dark"]{
+  --bg:#0e1325; --nav:#10162a; --card:#131a2f; --line:#232d4a;
+  --text:#eef0fb; --muted:#9aa4c4; --acc:#7f8fff; --on:#0e1325;
+  --green:#34d399; --dot:rgba(127,143,255,.14);
+  --j-key:#7cc4ff; --j-str:#4fd6a0; --j-bool:#f6d365;
+}
+:root[data-theme="light"]{
+  --bg:#f5f6fc; --nav:#ffffff; --card:#ffffff; --line:#dde1f0;
+  --text:#12172b; --muted:#59627f; --acc:#4f5de0; --on:#ffffff;
+  --green:#059669; --dot:rgba(79,93,224,.16);
+  --j-key:#0b6fb8; --j-str:#0d8a62; --j-bool:#b7791f;
+}
+
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+body{
+  font:17px/1.7 Figtree,system-ui,sans-serif;
+  background:var(--bg); color:var(--text);
+  background-image:radial-gradient(var(--dot) 1px,transparent 1px);
+  background-size:28px 28px;
+}
+a{color:inherit;text-decoration:none}
+h1,.brand{font-family:"Bricolage Grotesque",Figtree,sans-serif}
+code,pre{font-family:"JetBrains Mono",monospace}
+
+/* ---------- Navbar ---------- */
+.nav{
+  position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;
+  padding:14px 20px;background:var(--nav);border-bottom:1px solid var(--line);
+  transition:background .25s ease,box-shadow .25s ease,backdrop-filter .25s ease;
+}
+.nav.scrolled{
+  /* Scroll ke baad halka blur aur shadow navbar ko background se alag rakhta hai. */
+  background:color-mix(in srgb,var(--nav) 82%,transparent);
+  backdrop-filter:blur(16px);
+  box-shadow:0 10px 30px rgba(0,0,0,.12);
+}
+.brand{display:flex;align-items:center;gap:12px;font-weight:700;font-size:1.2rem}
+.logo{
+  background:var(--acc);color:var(--on);width:40px;height:40px;border-radius:11px;
+  display:grid;place-items:center;font:600 .95rem "JetBrains Mono",monospace;
+}
+.nav-actions{display:flex;gap:10px}
+.icon-btn{
+  width:44px;height:44px;border-radius:13px;border:1px solid var(--line);
+  background:color-mix(in srgb,var(--card) 80%,transparent);color:var(--text);
+  display:grid;place-items:center;cursor:pointer;
+}
+.nav-links{
+  display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;
+  background:var(--nav);padding:10px 20px 18px;border-bottom:1px solid var(--line);
+}
+.nav-links.show{display:flex}
+.nav-links a{padding:10px 0;color:var(--muted);font-weight:500}
+.nav-links a:hover,.nav-links a[aria-current="location"]{color:var(--text)}
+.nav-links a[aria-current="location"]{text-decoration:underline;text-decoration-color:var(--acc);text-underline-offset:7px}
+
+/* ---------- Hero ---------- */
+.hero{max-width:1120px;margin:auto;padding:28px 20px 64px;display:grid;gap:36px}
+.hero-text>[data-reveal]{transition-delay:var(--reveal-delay,0ms)}
+.gradient-text{
+  /* Theme badalne par gradient accent colors ke saath update hota hai. */
+  color:var(--acc);
+  background:linear-gradient(110deg,var(--acc),var(--green));
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+}
+.badge{
+  display:inline-flex;align-items:center;gap:10px;padding:7px 18px;border-radius:99px;
+  background:color-mix(in srgb,var(--green) 18%,transparent);color:var(--green);font-weight:500;font-size:.95rem;
+}
+.badge i{width:9px;height:9px;border-radius:50%;background:var(--green)}
+.hero h1{
+  font-size:clamp(2.6rem,7vw,4.4rem);line-height:1.04;letter-spacing:-.035em;
+  font-weight:800;margin:26px 0 22px;
+}
+.lead{color:var(--muted);font-size:1.15rem;max-width:30em}
+.btn-row{display:flex;flex-wrap:wrap;gap:14px;margin-top:34px}
+.btn{
+  display:inline-flex;align-items:center;gap:10px;padding:15px 26px;border-radius:13px;
+  font-weight:600;font-size:1.05rem;border:1px solid var(--line);cursor:pointer;
+  transition:transform .2s ease,box-shadow .2s ease;
+}
+.btn:hover{transform:translateY(-3px);box-shadow:0 8px 22px color-mix(in srgb,var(--acc) 24%,transparent)}
+.btn svg{transition:transform .2s ease}
+.btn:hover svg{transform:translateX(4px)}
+.btn.primary{background:var(--acc);border-color:var(--acc);color:var(--on)}
+.btn.ghost{background:color-mix(in srgb,var(--card) 80%,transparent);color:var(--text)}
+.btn:focus-visible,.icon-btn:focus-visible{outline:2px solid var(--acc);outline-offset:3px}
+
+/* ---------- Code card ---------- */
+.code-card{min-width:0;background:var(--card);border:1px solid var(--line);border-radius:22px;overflow:hidden}
+.code-top{
+  display:flex;align-items:center;gap:16px;padding:18px 22px;border-bottom:1px solid var(--line);
+  color:var(--muted);font-size:.9rem;
+}
+.code-top code{min-width:0;overflow-wrap:anywhere}
+.code-top b{
+  flex-shrink:0;margin-left:auto;font:500 .8rem "JetBrains Mono",monospace;color:var(--green);
+  border:1px solid var(--green);border-radius:99px;padding:3px 12px;
+}
+.dots{display:flex;flex-shrink:0;gap:8px}
+.dots i{width:13px;height:13px;border-radius:50%;background:#ff5f57}
+.dots i:nth-child(2){background:#febc2e}
+.dots i:nth-child(3){background:#28c840}
+.json{min-width:0;padding:22px;font-size:.88rem;line-height:1.75;color:var(--muted);white-space:pre-wrap;overflow-wrap:anywhere}
+.json .k{color:var(--j-key)} .json .s{color:var(--j-str)} .json .b{color:var(--j-bool)}
+
+/* Scroll reveal: observer element ko visible karne par yeh transition chalta hai. */
+.reveal-ready[data-reveal]:not([data-revealed="true"]),
+.reveal-ready [data-reveal]:not([data-revealed="true"]){
+  opacity:0;transform:translateY(24px);
+}
+.reveal-ready[data-reveal],
+.reveal-ready [data-reveal]{
+  transition:opacity .65s ease,transform .65s cubic-bezier(.2,.7,.2,1);
+  transition-delay:var(--reveal-delay,0ms);
+}
+
+@media (min-width:860px){
+  .nav{padding:14px 40px}
+  .nav-links{display:flex;position:static;flex-direction:row;gap:30px;background:none;border:0;padding:0}
+  .menu-btn{display:none}
+  .hero{grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);align-items:center;padding-top:72px;gap:56px}
+}
+/* ---------- Shared section ---------- */
+.section{max-width:1120px;margin:auto;padding:88px 20px 0}
+.eyebrow{
+  font:500 .8rem "JetBrains Mono",monospace;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--acc);margin-bottom:14px;
+}
+h2{
+  font-family:"Bricolage Grotesque",Figtree,sans-serif;
+  font-size:clamp(1.8rem,4.5vw,2.6rem);font-weight:700;letter-spacing:-.02em;line-height:1.15;margin-bottom:26px;
+}
+
+/* ---------- Marquee ---------- */
+.marquee{
+  margin-top:24px;overflow:hidden;white-space:nowrap;padding:20px 0;
+  background:color-mix(in srgb,var(--acc) 7%,var(--bg));
+  border-block:1px solid var(--line);
+}
+.marquee-track{display:inline-block;animation:slide 30s linear infinite}
+.marquee em{
+  font:500 1rem "JetBrains Mono",monospace;font-style:normal;color:var(--muted);margin-right:42px;
+}
+.marquee em b{color:var(--acc);font-weight:500;margin-right:42px}
+@keyframes slide{to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){.marquee-track{animation:none}}
+
+/* ---------- About ---------- */
+.about{display:grid;gap:40px}
+.body{color:var(--muted);margin-bottom:20px;max-width:34em}
+.facts{
+  background:var(--card);border:1px solid var(--line);border-radius:22px;padding:32px 36px;
+}
+.facts .eyebrow{margin-bottom:20px}
+.fact{padding:18px 0;border-bottom:1px solid var(--line)}
+.fact:last-child{border-bottom:0;padding-bottom:0}
+.fact small{
+  display:block;color:var(--muted);font-weight:600;font-size:.8rem;
+  letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px;
+}
+.fact p{font-weight:500;font-size:1.05rem;color:var(--text)}
+@media (min-width:860px){
+  .about{grid-template-columns:1.2fr 1fr;gap:64px;align-items:start}
+}
+/* ---------- Skills ---------- */
+.sub{color:var(--muted);margin-top:-12px;margin-bottom:34px}
+.skill-grid{display:grid;gap:20px}
+.skill-card{
+  position:relative;isolation:isolate;background:var(--card);border:1px solid var(--line);
+  border-radius:20px;padding:28px;transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease;
+}
+.skill-card h3,.project-body h3{
+  display:flex;align-items:center;gap:12px;font-size:1.2rem;font-weight:700;
+  font-family:"Bricolage Grotesque",Figtree,sans-serif;margin-bottom:18px;
+}
+.skill-card h3 svg{color:var(--acc)}
+.chips{display:flex;flex-wrap:wrap;gap:10px}
+.chips span{
+  border:1px solid var(--line);border-radius:99px;padding:5px 16px;
+  font-size:.92rem;color:var(--muted);
+  background:color-mix(in srgb,var(--bg) 60%,transparent);
+}
+
+/* ---------- Projects ---------- */
+.project-grid{display:grid;gap:24px}
+.project-card{
+  position:relative;isolation:isolate;background:var(--card);border:1px solid var(--line);border-radius:22px;overflow:hidden;
+  display:flex;flex-direction:column;transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease;
+}
+.skill-card::before,.project-card::before{
+  /* Mouse position custom properties se spotlight ka center set hota hai. */
+  content:"";position:absolute;inset:0;z-index:0;pointer-events:none;opacity:0;
+  background:radial-gradient(300px circle at var(--pointer-x,50%) var(--pointer-y,50%),color-mix(in srgb,var(--acc) 22%,transparent),transparent 72%);
+  transition:opacity .25s ease;
+}
+.skill-card>*,.project-card>*{position:relative;z-index:1}
+@media (hover:hover){
+  .skill-card:hover,.project-card:hover{
+    transform:translateY(-6px);border-color:var(--acc);
+    box-shadow:0 14px 34px color-mix(in srgb,var(--acc) 18%,transparent);
+  }
+  .skill-card:hover::before,.project-card:hover::before{opacity:1}
+}
+.project-shot{
+  height:200px;display:grid;place-items:center;color:#fff;font-weight:700;font-size:1.2rem;
+  font-family:"Bricolage Grotesque",Figtree,sans-serif;text-align:center;padding:16px;
+}
+.project-shot img{width:100%;height:100%;object-fit:cover}
+.project-body{padding:26px;display:flex;flex-direction:column;flex:1}
+.project-body h3{margin-bottom:12px}
+.project-body p{color:var(--muted);margin-bottom:20px}
+.project-links{
+  margin-top:auto;padding-top:22px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
+}
+.project-links a{color:var(--acc);font-weight:600}
+.project-links a:hover{text-decoration:underline}
+.project-links small{color:var(--muted);font-style:italic}
+
+@media (min-width:860px){
+  .skill-grid{grid-template-columns:repeat(2,1fr)}
+  .project-grid{grid-template-columns:repeat(3,1fr)}
+}
+/* ---------- Journey (timeline) ---------- */
+.timeline{position:relative;margin-left:6px;padding-left:32px}
+.timeline::before,.timeline::after{
+  content:"";position:absolute;top:0;bottom:0;left:0;width:1px;
+}
+.timeline::before{background:var(--line)}
+.timeline::after{
+  /* React scroll progress ko CSS variable me deta hai, line uske saath draw hoti hai. */
+  background:var(--acc);transform:scaleY(var(--timeline-progress,0));transform-origin:top;
+  box-shadow:0 0 12px color-mix(in srgb,var(--acc) 65%,transparent);
+}
+.timeline-item{position:relative;margin-bottom:44px}
+.timeline-item:last-child{margin-bottom:0}
+/* chhota gola jo line par dikhta hai */
+.timeline-item::before{
+  content:"";position:absolute;left:-39px;top:8px;width:13px;height:13px;
+  border-radius:50%;background:var(--acc);box-shadow:0 0 0 4px var(--bg);
+}
+.timeline-top{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:12px}
+.tag{
+  display:inline-flex;align-items:center;gap:8px;padding:4px 14px;border-radius:10px;
+  border:1px solid var(--line);background:var(--card);
+  font:500 .8rem "JetBrains Mono",monospace;letter-spacing:.08em;text-transform:uppercase;
+}
+.timeline-top code{color:var(--muted);font-size:.9rem}
+.timeline-item h3{
+  font-family:"Bricolage Grotesque",Figtree,sans-serif;font-size:1.4rem;font-weight:700;margin-bottom:4px;
+}
+.timeline-sub{color:var(--muted);font-style:italic;margin-bottom:8px}
+.timeline-text{color:var(--muted);max-width:40em}
+
+/* ---------- Contact ---------- */
+.contact-grid{display:grid;gap:36px}
+.contact-form{
+  background:var(--card);border:1px solid var(--line);border-radius:22px;
+  padding:32px;display:grid;gap:20px;
+}
+.contact-form label{display:grid;gap:8px;font-weight:600}
+.contact-form input,.contact-form textarea{
+  font:inherit;font-weight:400;padding:15px 16px;border-radius:12px;
+  border:1px solid var(--line);background:var(--bg);color:var(--text);
+}
+.contact-form input:focus,.contact-form textarea:focus{outline:2px solid var(--acc);outline-offset:2px}
+.contact-form button{width:100%;justify-content:center}
+.direct{display:grid;gap:16px;align-content:start}
+.direct-card{
+  display:flex;align-items:center;gap:18px;padding:20px 22px;border-radius:18px;
+  background:var(--card);border:1px solid var(--line);word-break:break-all;
+}
+.direct-card svg{color:var(--acc);flex-shrink:0}
+.direct-card small{
+  display:block;color:var(--muted);font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;
+}
+.direct-card:hover{border-color:var(--acc)}
+
+/* ---------- Footer ---------- */
+.footer{
+  margin-top:100px;background:color-mix(in srgb,var(--acc) 6%,var(--bg));
+  border-top:1px solid var(--line);padding:56px 20px 28px;
+}
+.footer-inner{max-width:1120px;margin:auto;display:grid;gap:32px}
+.footer-name{font-family:"Bricolage Grotesque",Figtree,sans-serif;font-size:1.2rem}
+.footer p{color:var(--muted)}
+.footer a{display:block;color:var(--muted);padding:4px 0}
+.footer a:hover{color:var(--text)}
+.copy{max-width:1120px;margin:40px auto 0;padding-top:22px;border-top:1px solid var(--line);font-size:.9rem}
+
+@media (min-width:860px){
+  .contact-grid{grid-template-columns:1.2fr 1fr;gap:56px}
+  .footer-inner{grid-template-columns:1.5fr 1fr 1fr}
+}
+
+/* Reduced motion on karne par reveals seedhe dikhte hain, animation nahi hoti. */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  .reveal-ready[data-reveal],.reveal-ready [data-reveal]{opacity:1!important;transform:none!important}
+  .timeline::after{transform:scaleY(1)}
+}
