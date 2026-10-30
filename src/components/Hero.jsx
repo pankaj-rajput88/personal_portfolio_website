@@ -55,7 +55,11 @@ export default function Hero() {
         </p>
         <div className="btn-row" data-reveal style={{ "--reveal-delay": "330ms" }}>
           <a className="btn primary" href="#projects">View Projects <ArrowRight size={18} /></a>
-          <a className="btn ghost" href="/resume.pdf" download>
+          <a
+            className="btn ghost"
+            href={`${import.meta.env.BASE_URL}my_Resume.pdf`}
+            download="Pankaj-Lodhi-Resume.pdf"
+          >
             <Download size={18} /> Download Resume
           </a>
         </div>
