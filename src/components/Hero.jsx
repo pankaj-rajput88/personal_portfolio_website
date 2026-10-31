@@ -57,8 +57,9 @@ export default function Hero() {
           <a className="btn primary" href="#projects">View Projects <ArrowRight size={18} /></a>
           <a
             className="btn ghost"
-            href={`${import.meta.env.BASE_URL}my_Resume.pdf`}
-            download="Pankaj-Lodhi-Resume.pdf"
+            href={`${import.meta.env.BASE_URL}resume.pdf`}
+            target="_blank"
+            rel="noreferrer"
           >
             <Download size={18} /> Download Resume
           </a>
