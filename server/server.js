@@ -1,5 +1,6 @@
 import "dotenv/config";
 import express from "express";
+import rateLimit from "express-rate-limit";
 import cors from "cors";
 import mongoose from "mongoose";
 import Message from "./models/Message.js";
@@ -15,13 +16,23 @@ app.use(cors({ origin: allowedOrigins }));
 // Form ka JSON data padhne ke liye
 app.use(express.json());
 
+// Render proxy ke peeche chalta hai, isliye ye zaroori hai
+app.set("trust proxy", 1);
+
+// Ek IP se 15 minute me sirf 5 messages
+const contactLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 5,
+  message: { error: "Too many messages. Please try again later." },
+});
+
 // Test route: browser me kholke dekhne ke liye ki server chal raha hai
 app.get("/", (req, res) => {
   res.json({ status: "ok", message: "Portfolio backend is running" });
 });
 
 // Contact form yahan data bhejega
-app.post("/api/contact", async (req, res) => {
+app.post("/api/contact", contactLimiter, async (req, res) => {
   try {
     const { name, email, message } = req.body;
 
