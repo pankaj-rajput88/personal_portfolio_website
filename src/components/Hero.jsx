@@ -47,7 +47,6 @@ export default function Hero() {
         {/* Har hero item ka delay alag hai, isliye text ek-ek karke aata hai. */}
         <span className="badge" data-reveal style={{ "--reveal-delay": "0ms" }}><i /> Open to work</span>
         <h1 data-reveal style={{ "--reveal-delay": "110ms" }}>
-          {/* Gradient phrase ko CSS accent colors se highlight karta hai. */}
           I build web apps from <span className="gradient-text">database to browser</span>.
         </h1>
         <p className="lead" data-reveal style={{ "--reveal-delay": "220ms" }}>
@@ -55,11 +54,12 @@ export default function Hero() {
         </p>
         <div className="btn-row" data-reveal style={{ "--reveal-delay": "330ms" }}>
           <a className="btn primary" href="#projects">View Projects <ArrowRight size={18} /></a>
+
+          {/* public/resume.pdf ko download karta hai */}
           <a
             className="btn ghost"
-            href={`${import.meta.env.BASE_URL}resume.pdf`}
-            target="_blank"
-            rel="noreferrer"
+            href="/resume.pdf"
+            download="Pankaj-Lodhi-Resume.pdf"
           >
             <Download size={18} /> Download Resume
           </a>
