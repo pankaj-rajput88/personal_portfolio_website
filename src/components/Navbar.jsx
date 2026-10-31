@@ -10,7 +10,7 @@ export default function Navbar({ dark, setDark }) {
 
   // Scroll par navbar ko glass effect dete hain aur current section track karte hain.
   useEffect(() => {
-    const updateScrolled = () => setScrolled(window.scrollY > 12);
+    const updateScrolled = () => setScrolled(window.scrollY > 10);
     updateScrolled();
     window.addEventListener("scroll", updateScrolled, { passive: true });
 
@@ -31,7 +31,7 @@ export default function Navbar({ dark, setDark }) {
   }, []);
 
   return (
-    <header className={scrolled ? "nav scrolled" : "nav"}>
+    <header className={`nav${scrolled ? " scrolled" : ""}${open ? " menu-open" : ""}`}>
       <a href="#top" className="brand">
         <span className="logo">{"</>"}</span>
         Pankaj Lodhi

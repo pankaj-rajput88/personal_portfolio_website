@@ -65,7 +65,7 @@ export default function Hero() {
         </div>
       </div>
 
-      <div className="code-card" data-reveal>
+      <div className="code-card" data-reveal style={{ "--reveal-delay": "440ms" }}>
         <div className="code-top">
           <span className="dots"><i /><i /><i /></span>
           <code>GET /api/developer/me</code>

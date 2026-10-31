@@ -1,11 +1,14 @@
 import { useState } from "react";
 import { Mail, Link } from "lucide-react";
 import { me } from "../data";
+import useReveal from "../hooks/useReveal";
 
 // Backend ka address .env se aata hai
 const API = import.meta.env.VITE_API_URL;
 
 export default function Contact() {
+  const revealRef = useReveal();
+
   // form ki values
   const [form, setForm] = useState({ name: "", email: "", message: "" });
   // status: idle (kuch nahi), sending (bhej rahe), success (ho gaya), error (fail)
@@ -43,7 +46,7 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="section">
+    <section id="contact" className="section" ref={revealRef} data-reveal>
       <p className="eyebrow">Contact</p>
       <h2>Let's build something.</h2>
       <p className="sub">Have a role, internship or project in mind? My inbox is open.</p>

@@ -65,6 +65,6 @@ export const journey = [
     date: "2023 — 2027",
     title: "B.Tech — Computer Science",
     sub: "ABES Engineering College, Ghaziabad",
-    text: "Undergraduate degree in Computer Science. CGPA: 7.1.",
+    text: "Undergraduate degree in Computer Science. CGPA: 7.0.",
   },
 ];

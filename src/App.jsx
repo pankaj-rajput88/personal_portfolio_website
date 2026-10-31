@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import useButtonRipple from "./hooks/useButtonRipple";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import Marquee from "./components/Marquee";
@@ -11,6 +12,10 @@ import Footer from "./components/Footer";
 
 export default function App() {
   const [dark, setDark] = useState(true);
+
+  // Ek global listener sabhi buttons par ripple lagata hai.
+  useButtonRipple();
+
   useEffect(() => {
     document.documentElement.dataset.theme = dark ? "dark" : "light";
   }, [dark]);
