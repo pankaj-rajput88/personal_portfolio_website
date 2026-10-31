@@ -6,8 +6,12 @@ import Message from "./models/Message.js";
 
 const app = express();
 
-// Sirf meri website ko server use karne do
-app.use(cors({ origin: process.env.CLIENT_URL.split(",") }));
+// CLIENT_URL na ho to bhi server crash nahi hoga
+const allowedOrigins = (
+  process.env.CLIENT_URL ||
+  "http://localhost:5173,https://effervescent-maamoul-c92eb6.netlify.app"
+).split(",");
+app.use(cors({ origin: allowedOrigins }));
 // Form ka JSON data padhne ke liye
 app.use(express.json());
 

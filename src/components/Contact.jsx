@@ -1,36 +1,55 @@
 import { useState } from "react";
-import { ArrowRight, Mail, Link } from "lucide-react";
+import { Mail, Link } from "lucide-react";
 import { me } from "../data";
-import useReveal from "../hooks/useReveal";
+
+// Backend ka address .env se aata hai
+const API = import.meta.env.VITE_API_URL;
 
 export default function Contact() {
-  const revealRef = useReveal();
-  // form ki values yahan save hoti hain
+  // form ki values
   const [form, setForm] = useState({ name: "", email: "", message: "" });
+  // status: idle (kuch nahi), sending (bhej rahe), success (ho gaya), error (fail)
+  const [status, setStatus] = useState("idle");
+  const [errorMsg, setErrorMsg] = useState("");
 
-  // jab bhi user type kare, state update ho
+  // user type kare to state update ho
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  // Send dabane par tumhara email app khulega (backend baad me lagayenge)
-  const handleSubmit = (e) => {
+  // Send dabane par ye chalega
+  const handleSubmit = async (e) => {
     e.preventDefault(); // page reload hone se rokta hai
-    const subject = `Portfolio message from ${form.name}`;
-    const body = `${form.message}\n\nFrom: ${form.name} (${form.email})`;
-    window.location.href =
-      `mailto:${me.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    setStatus("sending");
+    setErrorMsg("");
+
+    try {
+      // Backend ko data bhejo
+      const res = await fetch(`${API}/api/contact`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      const data = await res.json();
+
+      if (!res.ok) throw new Error(data.error || "Something went wrong");
+
+      setStatus("success");
+      setForm({ name: "", email: "", message: "" }); // form khali karo
+    } catch (err) {
+      setStatus("error");
+      setErrorMsg(err.message || "Could not send. Please try again.");
+    }
   };
 
   return (
-    <section id="contact" className="section" ref={revealRef} data-reveal>
+    <section id="contact" className="section">
       <p className="eyebrow">Contact</p>
       <h2>Let's build something.</h2>
       <p className="sub">Have a role, internship or project in mind? My inbox is open.</p>
 
       <div className="contact-grid">
-        {/* Left: form */}
-        <form className="contact-form" onSubmit={handleSubmit} data-reveal>
+        <form className="contact-form" onSubmit={handleSubmit}>
           <label>
             Name
             <input name="name" required placeholder="Your name"
@@ -47,11 +66,19 @@ export default function Contact() {
               placeholder="What would you like to build together?"
               value={form.message} onChange={handleChange} />
           </label>
-          <button className="btn primary" type="submit">Send message <ArrowRight size={18} /></button>
+
+          <button className="btn primary" type="submit" disabled={status === "sending"}>
+            {status === "sending" ? "Sending..." : "Send message"}
+          </button>
+
+          {/* Result ka message */}
+          {status === "success" && (
+            <p className="form-msg ok">Thanks! Your message was sent. I'll reply soon.</p>
+          )}
+          {status === "error" && <p className="form-msg err">{errorMsg}</p>}
         </form>
 
-        {/* Right: direct links */}
-        <div className="direct" data-reveal>
+        <div className="direct">
           <p className="eyebrow">Reach me directly</p>
 
           <a className="direct-card" href={`mailto:${me.email}`}>
